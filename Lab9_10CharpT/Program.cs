@@ -1,22 +1,25 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 class Program
 {
     static void Main()
     {
+        // Завдання 1: Реверс голосних букв
+
         // Шлях до файлу
-        string filePath = "text.txt";
+        string vowelsFilePath = "text.txt";
 
         // Читання тексту з файлу
-        string text = File.ReadAllText(filePath);
+        string vowelsText = File.ReadAllText(vowelsFilePath);
 
         // Створення стеку для зберігання голосних букв
         Stack<char> vowelsStack = new Stack<char>();
 
         // Перебір кожного символу тексту
-        foreach (char c in text)
+        foreach (char c in vowelsText)
         {
             // Якщо символ є голосною буквою, додаємо його до стеку
             if (IsVowel(c))
@@ -26,9 +29,67 @@ class Program
         }
 
         // Виведення голосних букв у зворотньому порядку
+        Console.WriteLine("Завдання 1: Реверс голосних букв");
         while (vowelsStack.Count > 0)
         {
             Console.Write(vowelsStack.Pop());
+        }
+        Console.WriteLine("\n");
+//_________________________________________________________________________________________
+        // Завдання 2: Каталог музичних дисків
+
+        // Шлях до файлу з числами
+        string numbersFilePath = "numbers.txt";
+
+        // Читання чисел з файлу
+        List<int> numbers = File.ReadAllLines(numbersFilePath)
+                                 .Select(int.Parse)
+                                 .ToList();
+
+        // Задання інтервалу [a, b]
+        int a = 5;
+        int b = 10;
+
+        // Створення стеків для зберігання чисел у відповідних групах
+        Stack<int> inRangeStack = new Stack<int>();
+        Stack<int> lessThanAStack = new Stack<int>();
+        Stack<int> greaterThanBStack = new Stack<int>();
+
+        // Розділення чисел на групи
+        foreach (int num in numbers)
+        {
+            if (num >= a && num <= b)
+            {
+                inRangeStack.Push(num);
+            }
+            else if (num < a)
+            {
+                lessThanAStack.Push(num);
+            }
+            else
+            {
+                greaterThanBStack.Push(num);
+            }
+        }
+
+        // Виведення елементів відповідно до порядку груп
+        Console.WriteLine("Завдання 2: Каталог музичних дисків");
+        Console.WriteLine("Numbers in the range [{0},{1}]:", a, b);
+        while (inRangeStack.Count > 0)
+        {
+            Console.WriteLine(inRangeStack.Pop());
+        }
+
+        Console.WriteLine("Numbers less than {0}:", a);
+        while (lessThanAStack.Count > 0)
+        {
+            Console.WriteLine(lessThanAStack.Pop());
+        }
+
+        Console.WriteLine("Numbers greater than {0}:", b);
+        while (greaterThanBStack.Count > 0)
+        {
+            Console.WriteLine(greaterThanBStack.Pop());
         }
     }
 
@@ -39,4 +100,3 @@ class Program
         return Array.IndexOf(vowels, c) != -1;
     }
 }
-
