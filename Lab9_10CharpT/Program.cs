@@ -167,4 +167,111 @@ class VowelsList : IEnumerable, IComparer, ICloneable
         }
         return newList;
     }
+
+//_________________________________________________________________________________________________________
+        // Завдання 3.1: 
+class Program
+{
+    static void Main()
+    {
+        // Шлях до файлу
+        string filePath = "numbers.txt";
+
+        // Читання чисел з файлу
+        List<int> numbers = new List<int>(Array.ConvertAll(File.ReadAllLines(filePath), int.Parse));
+
+        // Задання інтервалу [a, b]
+        int a = 5;
+        int b = 10;
+
+        // Створення ArrayList для зберігання чисел у відповідних групах
+        NumberGroups numberGroups = new NumberGroups();
+
+        // Додавання чисел до відповідних груп
+        foreach (int num in numbers)
+        {
+            if (num >= a && num <= b)
+            {
+                numberGroups.AddToRange(num);
+            }
+            else if (num < a)
+            {
+                numberGroups.AddLessThanA(num);
+            }
+            else
+            {
+                numberGroups.AddGreaterThanB(num);
+            }
+        }
+
+        // Виведення елементів відповідно до порядку груп
+        numberGroups.PrintGroups();
+    }
+}
+
+// Клас, який реалізує інтерфейси IEnumerable, IComparer і ICloneable
+class NumberGroups : IEnumerable, IComparer, ICloneable
+{
+    private ArrayList rangeNumbers = new ArrayList();
+    private ArrayList lessThanANumbers = new ArrayList();
+    private ArrayList greaterThanBNumbers = new ArrayList();
+
+    // Метод для додавання числа у групу [a, b]
+    public void AddToRange(int num)
+    {
+        rangeNumbers.Add(num);
+    }
+
+    // Метод для додавання числа, меншого за a
+    public void AddLessThanA(int num)
+    {
+        lessThanANumbers.Add(num);
+    }
+
+    // Метод для додавання числа, більшого за b
+    public void AddGreaterThanB(int num)
+    {
+        greaterThanBNumbers.Add(num);
+    }
+
+    // Метод для виведення груп чисел
+    public void PrintGroups()
+    {
+        Console.WriteLine("Numbers in the range [{0},{1}]:", 5, 10);
+        PrintArrayList(rangeNumbers);
+        
+        Console.WriteLine("Numbers less than {0}:", 5);
+        PrintArrayList(lessThanANumbers);
+        
+        Console.WriteLine("Numbers greater than {0}:", 10);
+        PrintArrayList(greaterThanBNumbers);
+    }
+
+    // Метод для виведення ArrayList
+    private void PrintArrayList(ArrayList list)
+    {
+        foreach (int num in list)
+        {
+            Console.WriteLine(num);
+        }
+    }
+
+    // Реалізація інтерфейсу IEnumerable
+    public IEnumerator GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
+
+    // Реалізація інтерфейсу IComparer
+    public int Compare(object x, object y)
+    {
+        throw new NotImplementedException();
+    }
+
+    // Реалізація інтерфейсу ICloneable
+    public object Clone()
+    {
+        throw new NotImplementedException();
+    }
+
 }
