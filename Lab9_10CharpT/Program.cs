@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,8 +36,8 @@ class Program
             Console.Write(vowelsStack.Pop());
         }
         Console.WriteLine("\n");
-//_________________________________________________________________________________________
-        // Завдання 2: Каталог музичних дисків
+//_________________________________________________________________________________________________________
+        // Завдання 2
 
         // Шлях до файлу з числами
         string numbersFilePath = "numbers.txt";
@@ -91,6 +92,29 @@ class Program
         {
             Console.WriteLine(greaterThanBStack.Pop());
         }
+//_________________________________________________________________________________________________________
+        // Завдання 3: 
+        // Шлях до файлу
+        string filePath = "text.txt";
+
+        // Читання тексту з файлу
+        string text = File.ReadAllText(filePath);
+
+        // Створення списку для зберігання голосних букв
+        VowelsList vowelsList = new VowelsList();
+
+        // Додавання голосних букв у список
+        foreach (char c in text)
+        {
+            if (IsVowel(c))
+            {
+                vowelsList.Add(c);
+            }
+        }
+
+        // Виведення голосних букв у зворотньому порядку
+        Console.WriteLine("Завдання 3: Реверс голосних букв з використанням ArrayList та інтерфейсів");
+        vowelsList.ReversePrint();
     }
 
     // Метод для перевірки, чи є символ голосною буквою
@@ -98,5 +122,49 @@ class Program
     {
         char[] vowels = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
         return Array.IndexOf(vowels, c) != -1;
+    }
+}
+
+// Клас, який реалізує інтерфейси IEnumerable, IComparer і ICloneable
+class VowelsList : IEnumerable, IComparer, ICloneable
+{
+    private ArrayList vowels = new ArrayList();
+
+    // Метод для додавання голосної букви у список
+    public void Add(char c)
+    {
+        vowels.Add(c);
+    }
+
+    // Метод для виведення голосних букв у зворотньому порядку
+    public void ReversePrint()
+    {
+        for (int i = vowels.Count - 1; i >= 0; i--)
+        {
+            Console.Write(vowels[i]);
+        }
+    }
+
+    // Реалізація інтерфейсу IEnumerable
+    public IEnumerator GetEnumerator()
+    {
+        return vowels.GetEnumerator();
+    }
+
+    // Реалізація інтерфейсу IComparer
+    public int Compare(object x, object y)
+    {
+        return ((char)x).CompareTo((char)y);
+    }
+
+    // Реалізація інтерфейсу ICloneable
+    public object Clone()
+    {
+        VowelsList newList = new VowelsList();
+        foreach (char c in vowels)
+        {
+            newList.Add(c);
+        }
+        return newList;
     }
 }
