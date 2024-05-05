@@ -50,3 +50,54 @@ class Program
         }
     }
 }
+
+//______________________________task2_______________________________
+
+using System;
+
+// Клас, що представляє факультет
+public class Faculty
+{
+    public string Name { get; set; }
+
+    public event EventHandler FacultyDay;  // Подія "День факультету"
+
+    public Faculty(string name)
+    {
+        Name = name;
+    }
+
+    // Метод для сповіщення про подію "День факультету"
+    public void CelebrateFacultyDay()
+    {
+        Console.WriteLine($"Сьогодні відзначається День факультету {Name}!");
+        OnFacultyDay();  // Виклик події
+    }
+
+    // Метод для виклику події "День факультету"
+    protected virtual void OnFacultyDay()
+    {
+        FacultyDay?.Invoke(this, EventArgs.Empty);
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Створення факультету
+        Faculty faculty = new Faculty("Фізико-математичний");
+
+        // Підписка на подію "День факультету"
+        faculty.FacultyDay += Faculty_FacultyDayHandler;
+
+        // Симулюємо відзначення Дня факультету
+        faculty.CelebrateFacultyDay();
+    }
+
+    // Обробник події "День факультету"
+    static void Faculty_FacultyDayHandler(object sender, EventArgs e)
+    {
+        Console.WriteLine("Ура! Сьогодні День факультету!");
+    }
+}
